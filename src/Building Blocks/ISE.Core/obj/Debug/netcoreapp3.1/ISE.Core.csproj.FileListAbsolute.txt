@@ -1,8 +1,0 @@
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\bin\Debug\netcoreapp3.1\ISE.Core.deps.json
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\bin\Debug\netcoreapp3.1\ISE.Core.dll
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\bin\Debug\netcoreapp3.1\ISE.Core.pdb
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\obj\Debug\netcoreapp3.1\ISE.Core.csprojAssemblyReference.cache
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\obj\Debug\netcoreapp3.1\ISE.Core.AssemblyInfoInputs.cache
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\obj\Debug\netcoreapp3.1\ISE.Core.AssemblyInfo.cs
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\obj\Debug\netcoreapp3.1\ISE.Core.dll
-C:\ProjetosEstudos\iturra-store-enterprise\src\Building Blocks\ISE.Core\obj\Debug\netcoreapp3.1\ISE.Core.pdb
