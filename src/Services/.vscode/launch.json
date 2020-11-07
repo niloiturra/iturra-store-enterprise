@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/ISE.Identidade.API/bin/Debug/netcoreapp3.1/ISE.Identidade.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/ISE.Identidade.API",
             "console": "internalConsole",
             "stopAtEntry": false
         },

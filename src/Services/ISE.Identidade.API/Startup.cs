@@ -1,3 +1,8 @@
+using System.Runtime.Serialization;
+using System.Net.Mime;
+using System.Reflection;
+using System.Text;
+using System.ComponentModel.Design;
 using System.Security;
 using System;
 using System.Collections.Generic;
@@ -15,6 +20,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ISE.Identidade.API.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using ISE.Identidade.API.Extensions;
 
 namespace ISE.Identidade.API
 {
@@ -37,6 +45,32 @@ namespace ISE.Identidade.API
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            #region JWTToken
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            services.AddAuthentication(options => 
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(bearerOptions =>
+            {
+                  bearerOptions.RequireHttpsMetadata = true;
+                  bearerOptions.SaveToken = true;
+                  bearerOptions.TokenValidationParameters = new TokenValidationParameters 
+                  {
+                      ValidateIssuerSigningKey = true,
+                      IssuerSigningKey = new SymmetricSecurityKey(key),
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidAudience = appSettings.ValidoEm,
+                      ValidIssuer = appSettings.Emissor
+                  }; 
+            });
+            #endregion
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
