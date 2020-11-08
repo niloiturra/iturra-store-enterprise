@@ -1,18 +1,7 @@
-using System.IO;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Runtime.Serialization;
-using System.Security.AccessControl;
-using System.Data.Common;
 using System;
-using Microsoft.Win32.SafeHandles;
 using System.Security.Claims;
-using System.Net.Mime;
-using System.Threading;
 using System.Collections.Generic;
-using System.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using ISE.Identidade.API.Models;
@@ -23,19 +12,17 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
-using System.IdentityModel.Tokens;
 
 namespace ISE.Identidade.API.Controllers
 {
-    [ApiController]
     [Route("api/identidade")]
-    public class AuthController : Controller
+    public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
 
-        public AuthController(UserManager<IdentityUser> userManager, 
+        public AuthController(UserManager<IdentityUser> userManager,
                               SignInManager<IdentityUser> signInManager,
                               IOptions<AppSettings> appSettings)
         {
@@ -49,7 +36,7 @@ namespace ISE.Identidade.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return CustomResponse(ModelState);
             }
 
             var user = new IdentityUser
@@ -63,11 +50,15 @@ namespace ISE.Identidade.API.Controllers
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
-                return Ok(await GerarJwt(usuarioRegistro.Email));
+                return CustomResponse(await GerarJwt(usuarioRegistro.Email));
             }
 
-            return BadRequest();
+            foreach (var error in result.Errors)
+            {
+                AdicionarErroProcessamento(error.Description);
+            }
+
+            return CustomResponse(result);
         }
 
         [HttpPost("logar")]
@@ -75,17 +66,24 @@ namespace ISE.Identidade.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return CustomResponse(ModelState);
             }
 
             var result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
 
             if (result.Succeeded)
             {
-                return Ok(await GerarJwt(usuarioLogin.Email));
+                return CustomResponse(await GerarJwt(usuarioLogin.Email));
             }
 
-            return BadRequest();
+            if(result.IsLockedOut)
+            {
+                AdicionarErroProcessamento("Usuário Temporariamente bloqueado por tentativas inválidas");
+                return CustomResponse();
+            }
+
+            AdicionarErroProcessamento("Usuário ou senha incorretos");
+            return CustomResponse();
         }
 
         private async Task<UsuarioRespostaLogin> GerarJwt(string email)
@@ -94,16 +92,7 @@ namespace ISE.Identidade.API.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
-
-            foreach (var userRole in userRoles)
-            {
-                claims.Add(new Claim("role", userRole));
-            }
+            claims = await GerarClaim(claims, user, userRoles);
 
             var identityClaims = new ClaimsIdentity();
             identityClaims.AddClaims(claims);
@@ -126,7 +115,7 @@ namespace ISE.Identidade.API.Controllers
             {
                 AccessToken = encodedToken,
                 ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
-                UsuarioToken = new UsuarioToken 
+                UsuarioToken = new UsuarioToken
                 {
                     Id = user.Id,
                     Email = user.Email,
@@ -135,6 +124,25 @@ namespace ISE.Identidade.API.Controllers
             };
 
             return response;
+        }
+
+        private async Task<IList<Claim>> GerarClaim(IList<Claim> claims, IdentityUser user, IList<string> userRoles)
+        {
+            return await Task.Run(() =>
+            {
+                claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
+                claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
+
+                foreach (var userRole in userRoles)
+                {
+                    claims.Add(new Claim("role", userRole));
+                }
+
+                return claims;
+            });
         }
 
         private static long ToUnixEpochDate(DateTime date)
