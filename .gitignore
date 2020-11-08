@@ -360,3 +360,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+src/Services/ISE.Identidade.API/.vscode/launch.json
+src/Services/ISE.Identidade.API/.vscode/tasks.json
