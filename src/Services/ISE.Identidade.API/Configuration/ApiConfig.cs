@@ -9,6 +9,7 @@ namespace ISE.Identidade.API.Configuration
     {
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
 
             return services;
@@ -22,11 +23,9 @@ namespace ISE.Identidade.API.Configuration
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseIdentityConfiguration();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

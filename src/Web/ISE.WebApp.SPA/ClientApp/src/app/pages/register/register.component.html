@@ -1,0 +1,50 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="page-blank-padding">
+  <mat-card class="form-wrapper width--full">
+    <h3>Registrar</h3>
+    <form class="pt-4" fxLayout="column" fxLayoutAlign="center center" [formGroup]="frmRegister"
+      (ngSubmit)="OnSubmit()">
+      <div fxFlex="100" class="size--input">
+        <mat-form-field class="width--full">
+          <mat-label>Email</mat-label>
+          <input [autofocus]="true" autocomplete="off" matInput type="email" placeholder="Insira seu email"
+            formControlName="email" required>
+          <mat-error>Email é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="size--input">
+        <mat-form-field class="width--full">
+          <mat-label>Senha</mat-label>
+          <input autocomplete="off" matInput [type]="hidePasswrd ? 'password' : 'text'" placeholder="Insira sua senha"
+            formControlName="senha" required>
+          <button mat-icon-button matSuffix (click)="hidePasswrd = !hidePasswrd" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePasswrd">
+            <mat-icon>{{hidePasswrd ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error>Senha é obrigatório</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="size--input">
+        <mat-form-field class="width--full">
+          <mat-label>Confirme a Senha</mat-label>
+          <input autocomplete="off" matInput [type]="hidePasswrd ? 'password' : 'text'"
+            placeholder="Insira a confirmação de senha" formControlName="senhaConfirmacao"
+            [errorStateMatcher]="confirmPasswrdMatcher" required>
+          <button mat-icon-button matSuffix (click)="hidePasswrd = !hidePasswrd" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePasswrd">
+            <mat-icon>{{hidePasswrd ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="frmRegister.hasError('notSame') && frmRegister.get('senhaConfirmacao').dirty && frmRegister.get('senhaConfirmacao').touched">
+            As senhas não coincidem
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex=" 100" fxLayout="row" fxLayoutAlign="center center" class="size--input">
+        <button [disabled]="frmRegister.invalid" mat-raised-button color="primary" class="btn-size">Registrar</button>
+      </div>
+    </form>
+  </mat-card>
+</div>

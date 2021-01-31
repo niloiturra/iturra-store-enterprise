@@ -14,3 +14,24 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.page-blank-padding {
+  padding: 64px 64px 64px 64px;
+}
+
+.width--full {
+  width: 100%;
+}

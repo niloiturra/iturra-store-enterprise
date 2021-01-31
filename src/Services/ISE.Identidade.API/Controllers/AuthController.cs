@@ -12,6 +12,7 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
+using Microsoft.AspNetCore.Cors;
 
 namespace ISE.Identidade.API.Controllers
 {
@@ -62,7 +63,7 @@ namespace ISE.Identidade.API.Controllers
         }
 
         [HttpPost("logar")]
-        public async Task<ActionResult> Login(UsuarioLogin usuarioLogin)
+        public async Task<ActionResult> Login([FromBody] UsuarioLogin usuarioLogin)
         {
             if (!ModelState.IsValid)
             {
