@@ -7,9 +7,10 @@ import { LoginModule } from './login/login.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterModule } from './register/register.module';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from '../helpers/auth.guard';
 
 const routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'registrar', component: RegisterComponent }
 ];

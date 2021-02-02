@@ -4,11 +4,20 @@
       <button mat-flat-button [routerLink]="''">
         Iturra Enterprise
       </button>
-      <div class="opcoes" fxLayout="row" fxLayoutAlign="space-between">
-        <button mat-flat-button [routerLink]="'/login'">
-          <mat-icon>door_front</mat-icon>
-          Entrar
-        </button>
+      <div class="opcoes" fxLayout="row" fxLayoutAlign="space-between center">
+        <ng-container *ngIf="!usuarioLogado; else logado">
+          <button mat-flat-button [routerLink]="'/login'">
+            <mat-icon>door_front</mat-icon>
+            Entrar
+          </button>
+        </ng-container>
+        <ng-template #logado>
+          <span>Olá, {{usuarioLogado.usuarioToken.email}}</span>
+          <button mat-flat-button (click)="sair()">
+            <mat-icon>door_front</mat-icon>
+            Sair
+          </button>
+        </ng-template>
       </div>
     </div>
   </mat-card>
