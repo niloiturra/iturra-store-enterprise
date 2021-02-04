@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { retry } from 'rxjs/operators';
 import { UsuarioRegistro, UsuarioRespostaLogin } from 'src/app/shared/models/Usuario';
 import { BaseService } from 'src/app/shared/services/base/base.service';
 
@@ -15,10 +15,9 @@ export class RegisterService extends BaseService {
   }
 
   registrar(usuarioRegistro: UsuarioRegistro): Observable<UsuarioRespostaLogin> {
-    return this.http.post<UsuarioRespostaLogin>(`${this.baseUrl}`, this.httpOptions)
+    return this.http.post<UsuarioRespostaLogin>(`${this.baseUrl}/identidade/registrar`, usuarioRegistro, this.httpOptions)
       .pipe(
         retry(1),
-        catchError(this.handleError)
       );
   }
 }

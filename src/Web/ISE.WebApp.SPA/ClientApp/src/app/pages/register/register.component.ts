@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PasswordMustMatchState } from 'src/app/shared/models/ErrorStateMatcher';
+import { UsuarioRegistro } from 'src/app/shared/models/Usuario';
 import { LoginService } from 'src/app/shared/services/login/login.service';
+import { RegisterService } from './register.service';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +17,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   hidePasswrd = true;
   frmRegister: FormGroup;
   confirmPasswrdMatcher = new PasswordMustMatchState();
+
+  private _unsubscribeAll: Subject<any> = new Subject();
   constructor(
     private _fb: FormBuilder,
     private loginService: LoginService,
+    private registerService: RegisterService
   ) { }
 
   ngOnInit(): void {
@@ -27,7 +34,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   OnSubmit(): void {
-    //WIP: Login after Register successfully
+    const novoRegistro = UsuarioRegistro.fromJson(this.frmRegister.value);
+    this.registerService.registrar(novoRegistro)
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe();
   }
 
   private checkPasswords(form: FormGroup): object {
@@ -39,10 +49,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
-
   }
 
   ngOnDestroy(): void {
-
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 }

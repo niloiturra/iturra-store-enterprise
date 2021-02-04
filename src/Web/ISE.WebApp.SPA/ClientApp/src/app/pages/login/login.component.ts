@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ResponseResult } from 'src/app/shared/models/ErrorModel';
 import { UsuarioLogin } from 'src/app/shared/models/Usuario';
 import { LoginService } from 'src/app/shared/services/login/login.service';
 
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (res) => {
-          console.log(res);
+          //WIP -> Resposta de Sucesso
         }
       );
   }

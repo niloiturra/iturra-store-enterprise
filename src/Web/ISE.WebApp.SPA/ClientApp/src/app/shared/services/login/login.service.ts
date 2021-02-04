@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { retry, catchError, map } from 'rxjs/operators';
+import { retry, map } from 'rxjs/operators';
 import { UsuarioLogin, UsuarioRespostaLogin } from '../../models/Usuario';
 import { BaseService } from '../base/base.service';
 
@@ -27,7 +27,6 @@ export class LoginService extends BaseService {
     return this.http.post<UsuarioRespostaLogin>(`${this.baseUrl}/identidade/logar`, usuarioLogin, this.httpOptions)
       .pipe(
         retry(1),
-        catchError(this.handleError),
         map(user => {
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);

@@ -2,6 +2,10 @@ export class UsuarioRegistro {
   email: string;
   senha: string;
   senhaConfirmacao: string;
+
+  static fromJson(jsonData: any): UsuarioRegistro {
+    return Object.assign(new UsuarioRegistro(), jsonData);
+  }
 }
 
 export class UsuarioLogin {
