@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ResponseResult } from 'src/app/shared/models/ErrorModel';
@@ -15,16 +16,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   hidePasswrd = true;
   frmLogin: FormGroup;
+  returnUrl: string;
 
   private _unsubscribeAll: Subject<any>;
   constructor(
     private _fb: FormBuilder,
     private _loginService: LoginService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this._unsubscribeAll = new Subject<any>();
   }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
     this.frmLogin = this._fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required]]
@@ -40,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(
         (res) => {
-          //WIP -> Resposta de Sucesso
+          this.router.navigateByUrl(this.returnUrl);
         }
       );
   }

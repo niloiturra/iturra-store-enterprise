@@ -4,7 +4,7 @@ import { NavMenuComponent } from './nav-menu.component';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatBadgeModule, MatButtonModule, MatDividerModule, MatIconModule, MatMenuModule, MatRippleModule, MatTooltipModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,11 @@ import { MatButtonModule, MatIconModule } from '@angular/material';
     MatButtonModule,
     RouterModule,
     MatIconModule,
+    MatRippleModule,
+    MatBadgeModule,
+    MatTooltipModule,
+    MatMenuModule,
+    MatDividerModule,
   ],
   exports: [
     NavMenuComponent,

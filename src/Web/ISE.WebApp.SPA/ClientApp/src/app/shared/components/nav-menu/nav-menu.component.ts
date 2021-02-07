@@ -10,6 +10,11 @@ import { LoginService } from '../../services/login/login.service';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent implements OnInit, OnDestroy {
+  public rippleRadiusValue = 15;
+  public badgeValue = 7;
+  public infoBagIcon = 'Imagem retirada de https://www.flaticon.com/free-icon/bag_825561 (Flat Icon Free)';
+  public infoUserIcon = 'Imagem retirada de https://www.flaticon.com/free-icon/user_2919600 (Flat Icon Free)';
+
   public usuarioLogado: UsuarioRespostaLogin = null;
   private _unsubscribeAll: Subject<any> = new Subject();
   constructor(public loginService: LoginService) { }

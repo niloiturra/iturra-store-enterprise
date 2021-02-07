@@ -1,3 +1,23 @@
 .nav-bar {
   border-radius: 0;
 }
+
+.welcome {
+  font-size: 14px;
+  color: #9c9c9c;
+}
+
+.action {
+  color: #673ab7;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action:focus,
+#logo:focus {
+  outline: none;
+}
+
+.logoff {
+  color: #f44336;
+}
