@@ -1,0 +1,37 @@
+<footer class="footer">
+  <mat-card class="nav-bar mat-elevation-z4">
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-around" fxLayoutAlign.lt-sm="baseline start" fxLayoutGap.lt-sm="12px">
+
+      <!-- First Column  -->
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <div id="logo" class="cursor-pointer noselect" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="12px"
+          [routerLink]="''">
+          <img [matTooltip]="''" matTooltipPosition="below" src="assets/images/bag.svg" width="40" />
+          <span class="action">
+            <em>Iturra Store Enterprise</em>
+          </span>
+        </div>
+
+        <div>
+          <p>Um pequeno texto instrucional da Iturra Store Enterprise.</p>
+        </div>
+
+        <div>
+          <span class="follow-us--text"><strong><em>Siga também nossa página no</em></strong></span>
+          <mat-icon class="vertical-align--sub cursor-pointer">facebook</mat-icon>
+        </div>
+      </div>
+
+      <!-- Second column -->
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <span class="about-us"><strong>Sobre</strong></span>
+        <span>Sobre nós</span>
+        <span>Serviços</span>
+        <span>Serviços</span>
+        <span>Termos de Uso</span>
+        <span>F.A.Q</span>
+      </div>
+
+    </div>
+  </mat-card>
+</footer>

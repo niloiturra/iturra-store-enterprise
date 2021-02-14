@@ -13,12 +13,13 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { CommonModule } from '@angular/common';
 import { GlobalErrorHandler } from './helpers/global-error-handler';
 import { MatSnackBarModule } from '@angular/material';
+import { FooterMenuModule } from './shared/components/footer-menu/footer-menu.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +27,7 @@ import { MatSnackBarModule } from '@angular/material';
     HttpClientModule,
     PagesModule,
     NavMenuModule,
+    FooterMenuModule,
     RouterModule,
     BrowserAnimationsModule,
     MatSnackBarModule,

@@ -1,0 +1,32 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.nav-bar {
+  border-radius: 0;
+}
+
+.vertical-align--sub {
+  vertical-align: sub;
+}
+
+.follow-us--text {
+  padding-right: 4px;
+}
+
+.about-us {
+  padding-bottom: 2px;
+}
+
+.action {
+  color: #673ab7;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action:focus,
+#logo:focus {
+  outline: none;
+}
