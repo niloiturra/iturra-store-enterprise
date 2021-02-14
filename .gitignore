@@ -364,3 +364,5 @@ src/Services/ISE.Identidade.API/.vscode/launch.json
 src/Services/ISE.Identidade.API/.vscode/tasks.json
 src/Web/ISE.WebApp.SPA/.vscode/launch.json
 src/Web/ISE.WebApp.SPA/.vscode/tasks.json
+src/.vscode/launch.json
+src/.vscode/tasks.json

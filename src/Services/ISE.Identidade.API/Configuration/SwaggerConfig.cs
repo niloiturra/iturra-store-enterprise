@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
 using System;
 
-
 namespace ISE.Identidade.API.Configuration
 {
     public static class SwaggerConfig

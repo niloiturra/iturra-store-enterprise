@@ -1,0 +1,18 @@
+USE [IturraStoreEnterprise]
+GO
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Boné CAP Mockup', 'Boné CAP Mockup (branco) de tecido leve e confortável para sua cabeça', 1, 15.00, GETDATE(), 'bone-branco-1.jpg', 10)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Boné Preto', 'Boné preto com aba reta, conforto e estilo com tecido de poliéster', 1, 20.00, GETDATE(), 'bone-preto-1.jpg', 5)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Boné Preto e Branco', 'Boné preto e branco feito de algodão, estiloso e confortável para dias quentes', 1, 30.00, GETDATE(), 'bone-preto-branco-1.jpg', 7)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Camisa Branca' , 'Camisa masculina feita de seda, cor branca, com botões', 1, 90.00, GETDATE(), 'camisa-branca.jpg', 20)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Camiseta MOCKUP', 'Camiseta masculina MOCKUP preta, com tecido leve e confortável de algodão', 1, 65.00, GETDATE(), 'camiseta-mockup.jpg', 13)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Caneca Porcelana', 'Caneca branca de porcelana', 1, 15.00, GETDATE(), 'caneca-branca-default.jpg', 60)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Caneca Café', 'Caneca café de alumínio', 1, 10.00, GETDATE(), 'caneca-cafe-1.jpg', 120)
+INSERT [dbo].[Produtos] ([Id], [Nome], [Descricao], [Ativo], [Valor], [DataCadastro], [Imagem], [QuantidadeEstoque])
+VALUES (NEWID(), 'Caneca Moockup', 'Caneca mockup de porcelana customizada preta e branca', 1, 30.00, GETDATE(), 'caneca-moockup-1.jpg', 45)
