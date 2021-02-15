@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using ISE.Identidade.API.Models;
+using ISE.WebApi.Core.Identidade;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
-using ISE.Identidade.API.Extensions;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
-using Microsoft.AspNetCore.Cors;
 
 namespace ISE.Identidade.API.Controllers
 {

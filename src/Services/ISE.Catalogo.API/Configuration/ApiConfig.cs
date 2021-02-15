@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using ISE.Catalogo.API.Data;
+using ISE.WebApi.Core.Identidade;
 
 namespace ISE.Catalogo.API.Configuration
 {
@@ -39,6 +40,7 @@ namespace ISE.Catalogo.API.Configuration
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("Total");
+            app.UseAuthConfiguration();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

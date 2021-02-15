@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using ISE.WebApi.Core.Identidade;
 
 namespace ISE.Identidade.API.Configuration
 {
@@ -25,7 +26,7 @@ namespace ISE.Identidade.API.Configuration
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
-            app.UseIdentityConfiguration();
+            app.UseAuthConfiguration();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
