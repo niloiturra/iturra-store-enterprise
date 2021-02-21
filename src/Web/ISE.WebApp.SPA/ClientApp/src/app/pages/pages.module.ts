@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterModule } from './register/register.module';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from '../helpers/auth.guard';
+import { CatalogoComponent } from './catalogo/catalogo.component';
+import { CatalogoModule } from './catalogo/catalogo.module';
 
 const routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -22,11 +24,13 @@ const routes = [
     RouterModule.forRoot(routes),
     HomeModule,
     LoginModule,
+    CatalogoModule,
   ],
   exports: [
     HomeModule,
     LoginModule,
-    RegisterModule
+    RegisterModule,
+    CatalogoModule,
   ]
 })
 export class PagesModule { }

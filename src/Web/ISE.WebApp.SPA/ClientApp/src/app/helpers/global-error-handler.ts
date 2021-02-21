@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponseResult } from '../shared/models/ErrorModel';
 import { ErrorService } from '../shared/services/error/error.service';
-import { NotificationService } from '../shared/services/notifications.service';
+import { NotificationService } from '../shared/services/notifications/notifications.service';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

@@ -1,20 +1,26 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { retry, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { UsuarioLogin, UsuarioRespostaLogin } from '../../models/Usuario';
-import { BaseService } from '../base/base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService extends BaseService {
+export class LoginService {
+
+  baseUrl = environment.baseUrl;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  };
 
   private currentUserSubject: BehaviorSubject<UsuarioRespostaLogin>;
   public currentUser: Observable<UsuarioRespostaLogin>;
 
   constructor(private http: HttpClient) {
-    super();
     this.currentUserSubject = new BehaviorSubject<UsuarioRespostaLogin>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }

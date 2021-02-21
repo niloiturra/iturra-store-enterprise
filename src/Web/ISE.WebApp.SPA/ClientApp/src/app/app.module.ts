@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PagesModule } from './pages/pages.module';
 import { NavMenuModule } from './shared/components/nav-menu/nav-menu.module';
 import { RouterModule } from '@angular/router';
@@ -18,8 +16,6 @@ import { FooterMenuModule } from './shared/components/footer-menu/footer-menu.mo
 @NgModule({
   declarations: [
     AppComponent,
-    CounterComponent,
-    FetchDataComponent,
   ],
   imports: [
     CommonModule,
