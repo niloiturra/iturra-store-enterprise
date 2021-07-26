@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Builder;
 using ISE.Identidade.API.Data;
 using ISE.Identidade.API.Extensions;
 using ISE.WebApi.Core.Identidade;
@@ -12,7 +11,7 @@ namespace ISE.Identidade.API.Configuration
 {
     public static class IdentityConfig
     {
-        public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services,
+        public static void AddIdentityConfiguration(this IServiceCollection services,
             IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -25,7 +24,6 @@ namespace ISE.Identidade.API.Configuration
                 .AddDefaultTokenProviders();
 
             services.AddJwtConfiguration(configuration);
-            return services;
         }
     }
 }

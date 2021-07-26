@@ -5,16 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Building Blocks\ISE.Core\ISE.Core.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Building Blocks\ISE.WebApi.Core\ISE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\ISE.Core\ISE.Core.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\ISE.WebApi.Core\ISE.WebApi.Core.csproj" />
   </ItemGroup>
 </Project>
