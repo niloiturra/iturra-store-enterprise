@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ISE.Cliente.API.Models;
+using ISE.Core.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace ISE.Cliente.API.Data.Repository
@@ -14,6 +15,8 @@ namespace ISE.Cliente.API.Data.Repository
             _context = context;
         }
         
+        public IUnitOfWork UnitOfWork => _context;
+
         public void Adicionar(Models.Cliente cliente)
         {
             _context.Clientes.Add(cliente);
