@@ -27,5 +27,4 @@ namespace ISE.Core.Messages
             return ValidationResult;
         }
     }
-    
 }

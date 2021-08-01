@@ -3,6 +3,8 @@ using ISE.Catalogo.API.Models;
 using ISE.Core.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation.Results;
+using ISE.Core.Messages;
 
 namespace ISE.Catalogo.API.Data
 {
@@ -15,6 +17,9 @@ namespace ISE.Catalogo.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<ValidationResult>();
+            modelBuilder.Ignore<Event>();
+            
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");

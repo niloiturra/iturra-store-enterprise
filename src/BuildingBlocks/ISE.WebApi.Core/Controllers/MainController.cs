@@ -1,14 +1,16 @@
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace ISE.Identidade.API.Controllers
+namespace ISE.WebApi.Core.Controllers
 {
     [ApiController]
     public abstract class MainController : Controller
     {
         protected ICollection<string> Erros = new List<string>();
+
         protected ActionResult CustomResponse(object result = null)
         {
             if (OperacaoValida())
@@ -18,7 +20,7 @@ namespace ISE.Identidade.API.Controllers
 
             return BadRequest(new ValidationProblemDetails(new Dictionary<string, string[]>
             {
-                { "mensagens", Erros.ToArray() }
+                { "Mensagens", Erros.ToArray() }
             }));
         }
 
@@ -26,6 +28,16 @@ namespace ISE.Identidade.API.Controllers
         {
             var erros = modelState.Values.SelectMany(e => e.Errors);
             foreach (var erro in erros)
+            {
+                AdicionarErroProcessamento(erro.ErrorMessage);
+            }
+
+            return CustomResponse();
+        }
+
+        protected ActionResult CustomResponse(ValidationResult validationResult)
+        {
+            foreach (var erro in validationResult.Errors)
             {
                 AdicionarErroProcessamento(erro.ErrorMessage);
             }

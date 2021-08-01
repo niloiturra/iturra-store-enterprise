@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ISE.Catalogo.API.Models;
+using ISE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ISE.WebApi.Core.Identidade;
@@ -11,7 +12,7 @@ namespace ISE.Catalogo.API.Controllers
     [ApiController]
     [Route("api/catalogo")]
     [Authorize]
-    public class CatalogoController : Controller
+    public class CatalogoController : MainController
     {
         private readonly IProdutoRepository _produtoRepository;
         public CatalogoController(IProdutoRepository produtoRepository)
