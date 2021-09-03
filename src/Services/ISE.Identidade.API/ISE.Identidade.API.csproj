@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Building Blocks\ISE.WebApi.Core\ISE.WebApi.Core.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\ISE.Core\ISE.Core.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\ISE.MessageBus\ISE.MessageBus\ISE.MessageBus.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\ISE.WebApi.Core\ISE.WebApi.Core.csproj" />
