@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ISE.Pedido.API.Configuration;
+using ISE.WebApi.Core.Identidade;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,20 +18,38 @@ namespace ISE.Pedido.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public Startup(IHostEnvironment hostEnvironment)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
+        }
+        
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-        }
+            services.AddApiConfiguration(Configuration);
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddJwtConfiguration(Configuration);
+
+            services.AddSwaggerConfiguration();
+
+            services.AddMediatR(typeof(Startup));
+
+            services.RegisterServices();
+
+            services.AddMessageBusConfiguration(Configuration);        }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -42,10 +63,7 @@ namespace ISE.Pedido.API
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

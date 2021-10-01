@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\ISE.MessageBus\ISE.MessageBus\ISE.MessageBus.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\ISE.WebApi.Core\ISE.WebApi.Core.csproj" />
+    <ProjectReference Include="..\ISE.Pedido.Domain\ISE.Pedido.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

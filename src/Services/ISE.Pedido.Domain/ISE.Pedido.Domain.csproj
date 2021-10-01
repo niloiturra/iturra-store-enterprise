@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\BuildingBlocks\ISE.Core\ISE.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="NetDevPack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>C:\Users\Nilo Alan\.nuget\packages\netdevpack\5.3.0\lib\netstandard2.1\NetDevPack.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

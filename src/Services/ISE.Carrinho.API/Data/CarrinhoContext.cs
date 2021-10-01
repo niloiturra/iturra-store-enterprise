@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ISE.Carrinho.API.Data
 {
-    public sealed class CarrinhoContext : DbContext
+     public sealed class CarrinhoContext : DbContext
     {
         public CarrinhoContext(DbContextOptions<CarrinhoContext> options)
             : base(options)
@@ -30,11 +30,30 @@ namespace ISE.Carrinho.API.Data
                 .HasName("IDX_Cliente");
 
             modelBuilder.Entity<CarrinhoCliente>()
+                .Ignore(c => c.Voucher)
+                .OwnsOne(c => c.Voucher, v =>
+                {
+                    v.Property(vc => vc.Codigo)
+                        .HasColumnName("VoucherCodigo")
+                        .HasColumnType("varchar(50)");
+
+                    v.Property(vc => vc.TipoDesconto)
+                        .HasColumnName("TipoDesconto");
+
+                    v.Property(vc => vc.Percentual)
+                        .HasColumnName("Percentual");
+
+                    v.Property(vc => vc.ValorDesconto)
+                        .HasColumnName("ValorDesconto");
+                });
+
+            modelBuilder.Entity<CarrinhoCliente>()
                 .HasMany(c => c.Itens)
                 .WithOne(i => i.CarrinhoCliente)
                 .HasForeignKey(c => c.CarrinhoId);
 
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes()
+                .SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.Cascade;
         }
     }
 }

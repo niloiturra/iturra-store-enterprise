@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
+using ISE.Pedido.Domain;
 
 namespace ISE.Carrinho.API.Models
 {
@@ -15,6 +16,9 @@ namespace ISE.Carrinho.API.Models
         public decimal ValorTotal { get; set; }
         public List<CarrinhoItem> Itens { get; set; } = new List<CarrinhoItem>();
         public ValidationResult ValidationResult { get; set; }
+        public bool VoucherUtilizado { get; set; }
+        public decimal Desconto { get; set; }
+        public Voucher Voucher { get; set; }
 
         public CarrinhoCliente(Guid clienteId)
         {
@@ -23,10 +27,45 @@ namespace ISE.Carrinho.API.Models
         }
 
         public CarrinhoCliente() { }
+        
+        public void AplicarVoucher(Voucher voucher)
+        {
+            Voucher = voucher;
+            VoucherUtilizado = true;
+            CalcularValorCarrinho();
+        }
 
         internal void CalcularValorCarrinho()
         {
             ValorTotal = Itens.Sum(p => p.CalcularValor());
+        }
+        
+        private void CalcularValorTotalDesconto()
+        {
+            if (!VoucherUtilizado) return;
+
+            decimal desconto = 0;
+            var valor = ValorTotal;
+
+            if (Voucher.TipoDesconto == TipoDescontoVoucher.Porcentagem)
+            {
+                if (Voucher.Percentual.HasValue)
+                {
+                    desconto = (valor * Voucher.Percentual.Value) / 100;
+                    valor -= desconto;
+                }
+            }
+            else
+            {
+                if (Voucher.ValorDesconto.HasValue)
+                {
+                    desconto = Voucher.ValorDesconto.Value;
+                    valor -= desconto;
+                }
+            }
+
+            ValorTotal = valor < 0 ? 0 : valor;
+            Desconto = desconto;
         }
 
         internal bool CarrinhoItemExistente(CarrinhoItem item)

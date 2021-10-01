@@ -15,7 +15,8 @@ namespace ISE.Cliente.API.Models
         public Guid ClienteId { get; private set; }
         public Cliente Cliente { get; protected set; }
 
-        public Endereco(string logradouro, string numero, string complemento, string bairro, string cep, string cidade, string estado)
+        public Endereco(string logradouro, string numero, string complemento, string bairro, string cep, string cidade,
+            string estado, Guid messageClienteId)
         {
             Logradouro = logradouro;
             Numero = numero;

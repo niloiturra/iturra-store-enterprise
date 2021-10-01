@@ -8,6 +8,7 @@ using ISE.WebApi.Core.Usuario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Voucher = ISE.Carrinho.API.Models.Voucher;
 
 namespace ISE.Carrinho.API.Controllers
 {
@@ -78,6 +79,20 @@ namespace ISE.Carrinho.API.Controllers
             carrinho.RemoverItem(itemCarrinho);
 
             _context.CarrinhoItens.Remove(itemCarrinho);
+            _context.CarrinhoCliente.Update(carrinho);
+
+            await PersistirDados();
+            return CustomResponse();
+        }
+        
+        [HttpPost]
+        [Route("carrinho/aplicar-voucher")]
+        public async Task<IActionResult> AplicarVoucher(Voucher voucher)
+        {
+            var carrinho = await ObterCarrinhoCliente();
+
+            carrinho.AplicarVoucher(voucher);
+
             _context.CarrinhoCliente.Update(carrinho);
 
             await PersistirDados();
