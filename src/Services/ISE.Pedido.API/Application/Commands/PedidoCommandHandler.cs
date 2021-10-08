@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using ISE.Core.Messages;
+using ISE.Core.Messages.Integration;
+using ISE.MessageBus;
 using ISE.Pedido.API.Application.Dto;
 using ISE.Pedido.API.Application.Events;
 using ISE.Pedido.Domain;
@@ -11,17 +13,20 @@ using MediatR;
 
 namespace ISE.Pedido.API.Application.Commands
 {
-     public class PedidoCommandHandler : CommandHandler,
+public class PedidoCommandHandler : CommandHandler,
         IRequestHandler<AdicionarPedidoCommand, ValidationResult>
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IVoucherRepository _voucherRepository;
+        private readonly IMessageBus _bus;
 
         public PedidoCommandHandler(IVoucherRepository voucherRepository, 
-                                    IPedidoRepository pedidoRepository)
+                                    IPedidoRepository pedidoRepository, 
+                                    IMessageBus bus)
         {
             _voucherRepository = voucherRepository;
             _pedidoRepository = pedidoRepository;
+            _bus = bus;
         }
 
         public async Task<ValidationResult> Handle(AdicionarPedidoCommand message, CancellationToken cancellationToken)
@@ -39,7 +44,7 @@ namespace ISE.Pedido.API.Application.Commands
             if (!ValidarPedido(pedido)) return ValidationResult;
 
             // Processar pagamento
-            if (!ProcessarPagamento(pedido)) return ValidationResult;
+            if (!await ProcessarPagamento(pedido, message)) return ValidationResult;
 
             // Se pagamento tudo ok!
             pedido.AutorizarPedido();
@@ -53,7 +58,7 @@ namespace ISE.Pedido.API.Application.Commands
             // Persistir dados de pedido e voucher
             return await PersistirDados(_pedidoRepository.UnitOfWork);
         }
- 
+
         private Domain.Pedido MapearPedido(AdicionarPedidoCommand message)
         {
             var endereco = new Endereco
@@ -122,9 +127,31 @@ namespace ISE.Pedido.API.Application.Commands
             return true;
         }
 
-        public bool ProcessarPagamento(Domain.Pedido pedido)
+        public async Task<bool> ProcessarPagamento(Domain.Pedido pedido, AdicionarPedidoCommand message)
         {
-            return true;
+            var pedidoIniciado = new PedidoIniciadoIntegrationEvent
+            {
+                PedidoId = pedido.Id,
+                ClienteId = pedido.ClienteId,
+                Valor = pedido.ValorTotal,
+                TipoPagamento = 1,
+                NomeCartao = message.NomeCartao,
+                NumeroCartao = message.NumeroCartao,
+                MesAnoVencimento = message.ExpiracaoCartao,
+                CVV = message.CvvCartao
+            };
+
+            var result = await _bus
+                .RequestAsync<PedidoIniciadoIntegrationEvent, ResponseMessage>(pedidoIniciado);
+            
+            if (result.ValidationResult.IsValid) return true;
+
+            foreach (var erro in result.ValidationResult.Errors)
+            {
+                AdicionarErro(erro.ErrorMessage);
+            }
+
+            return false;
         }
     }
 }
