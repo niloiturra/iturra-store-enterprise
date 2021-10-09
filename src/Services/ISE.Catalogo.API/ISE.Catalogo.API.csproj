@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
     <ProjectReference Include="..\..\BuildingBlocks\ISE.Core\ISE.Core.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\ISE.MessageBus\ISE.MessageBus\ISE.MessageBus.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\ISE.WebApi.Core\ISE.WebApi.Core.csproj" />
   </ItemGroup>
 </Project>

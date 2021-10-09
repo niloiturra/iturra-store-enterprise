@@ -19,6 +19,7 @@ namespace ISE.Pedido.Domain
             VoucherId = voucherId;
         }
 
+        // EF ctor
         protected Pedido() { }
 
         public int Codigo { get; private set; }
@@ -35,13 +36,23 @@ namespace ISE.Pedido.Domain
         
         public Endereco Endereco { get; private set; }
 
+        // EF Rel.
         public Voucher Voucher { get; private set; }
 
         public void AutorizarPedido()
         {
             PedidoStatus = PedidoStatus.Autorizado;
         }
+        public void CancelarPedido()
+        {
+            PedidoStatus = PedidoStatus.Cancelado;
+        }
 
+        public void FinalizarPedido()
+        {
+            PedidoStatus = PedidoStatus.Pago;
+        }
+        
         public void AtribuirVoucher(Voucher voucher)
         {
             VoucherUtilizado = true;

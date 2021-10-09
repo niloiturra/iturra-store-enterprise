@@ -8,10 +8,11 @@ using ISE.Pedido.Domain;
 
 namespace ISE.Pedido.API.Application.Queries
 {
-     public interface IPedidoQueries
+    public interface IPedidoQueries
     {
         Task<PedidoDto> ObterUltimoPedido(Guid clienteId);
         Task<IEnumerable<PedidoDto>> ObterListaPorClienteId(Guid clienteId);
+        Task<PedidoDto> ObterPedidosAutorizados();
     }
 
     public class PedidoQueries : IPedidoQueries
@@ -47,6 +48,34 @@ namespace ISE.Pedido.API.Application.Queries
             var pedidos = await _pedidoRepository.ObterListaPorClienteId(clienteId);
 
             return pedidos.Select(PedidoDto.ParaPedidoDTO);
+        }
+
+        public async Task<PedidoDto> ObterPedidosAutorizados()
+        {
+            const string sql = @"SELECT 
+                                P.ID as 'PedidoId', P.ID, P.CLIENTEID, 
+                                PI.ID as 'PedidoItemId', PI.ID, PI.PRODUTOID, PI.QUANTIDADE 
+                                FROM PEDIDOS P 
+                                INNER JOIN PEDIDOITEMS PI ON P.ID = PI.PEDIDOID 
+                                WHERE P.PEDIDOSTATUS = 1                                
+                                ORDER BY P.DATACADASTRO";
+
+            var lookup = new Dictionary<Guid, PedidoDto>();
+
+            await _pedidoRepository.ObterConexao().QueryAsync<PedidoDto, PedidoItemDto, PedidoDto>(sql,
+                (p, pi) =>
+                {
+                    if (!lookup.TryGetValue(p.Id, out var pedidoDto))
+                        lookup.Add(p.Id, pedidoDto = p);
+
+                    pedidoDto.PedidoItems ??= new List<PedidoItemDto>();
+                    pedidoDto.PedidoItems.Add(pi);
+
+                    return pedidoDto;
+
+                }, splitOn: "PedidoId,PedidoItemId");
+
+            return lookup.Values.OrderBy(p=>p.Data).FirstOrDefault();
         }
 
         private PedidoDto MapearPedido(dynamic result)
