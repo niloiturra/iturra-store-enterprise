@@ -5,7 +5,6 @@ using ISE.Catalogo.API.Models;
 using ISE.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using ISE.WebApi.Core.Identidade;
 
 namespace ISE.Catalogo.API.Controllers
 {
@@ -22,9 +21,9 @@ namespace ISE.Catalogo.API.Controllers
         }
 
         [HttpGet("catalogo/produtos")]
-        public async Task<IEnumerable<Produto>> Index()
+        public async Task<PagedResult<Produto>> Index([FromQuery] int ps = 8, [FromQuery] int page = 1, [FromQuery] string q = null)
         {
-            return await _produtoRepository.ObterTodos();
+            return await _produtoRepository.ObterTodos(ps,page,q);
         }
 
         [HttpGet("catalogo/produtos/{id}")]
